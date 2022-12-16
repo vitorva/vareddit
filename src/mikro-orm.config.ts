@@ -7,6 +7,8 @@ export default {
     path: path.join(__dirname, "./migrations"), // path to the folder with migrations
     glob: "!(*.d).{js,ts}", // how to match migration files (all .js and .ts files, but not .d.ts)
   },
+  user: "postgres",
+  password: "root",
   entities: [Post],
   dbName: "vareddit",
   type: "postgresql",
