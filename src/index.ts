@@ -30,6 +30,7 @@ const main = async () => {
 */
   // added this line
 
+  // code to expose graphql to localhost:4000/graphql
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [HelloResolver, PostResolver],
