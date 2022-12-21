@@ -8,6 +8,13 @@ import { buildSchema } from "type-graphql";
 import { HelloResolver } from "./resolvers/hello";
 import { PostResolver } from "./resolvers/post";
 import { UserResolver } from "./resolvers/user";
+const session = require("express-session");
+let RedisStore = require("connect-redis")(session);
+
+// redis@v4
+const { createClient } = require("redis");
+let redisClient = createClient({ legacyMode: true });
+redisClient.connect().catch(console.error);
 
 const main = async () => {
   const orm = await MikroORM.init(mikroConfig);
@@ -24,6 +31,16 @@ const main = async () => {
   //console.log(posts);
 
   const app = express();
+
+  app.use(
+    session({
+      store: new RedisStore({ client: redisClient }),
+      saveUninitialized: false,
+      secret: "keyboard cat",
+      resave: false,
+    })
+  );
+
   /*
   app.get("/", (_, res) => {
     res.send("hello !");
