@@ -19,6 +19,8 @@
     "skipLibCheck": true /* Skip type checking of declaration files. */,
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */,
     "experimentalDecorators" : true,
+
+    "strictPropertyInitialization": false, // https://stackoverflow.com/questions/49699067/property-has-no-initializer-and-is-not-definitely-assigned-in-the-construc
   },
   "incude": ["./src/**/*.ts"] // https://stackoverflow.com/questions/71846463/typescript-not-creating-dist-folder
 }
