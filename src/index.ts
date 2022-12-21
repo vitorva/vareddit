@@ -1,6 +1,5 @@
 import { MikroORM } from "@mikro-orm/core";
 import { __prod__ } from "./constants";
-import { Post } from "./entities/Post";
 import mikroConfig from "./mikro-orm.config";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
@@ -8,13 +7,12 @@ import { buildSchema } from "type-graphql";
 import { HelloResolver } from "./resolvers/hello";
 import { PostResolver } from "./resolvers/post";
 import { UserResolver } from "./resolvers/user";
-const session = require("express-session");
-let RedisStore = require("connect-redis")(session);
+import session from "express-session";
+//let RedisStore = require("connect-redis")(session);
+import connectRedis from "connect-redis";
 
 // redis@v4
-const { createClient } = require("redis");
-let redisClient = createClient({ legacyMode: true });
-redisClient.connect().catch(console.error);
+import { createClient } from "redis";
 
 const main = async () => {
   const orm = await MikroORM.init(mikroConfig);
@@ -32,11 +30,17 @@ const main = async () => {
 
   const app = express();
 
+  const RedisStore = connectRedis(session);
+
+  const redisClient = createClient({ legacyMode: true });
+  redisClient.connect().catch(console.error);
+
   app.use(
     session({
-      store: new RedisStore({ client: redisClient }),
+      name: "quid",
+      store: new RedisStore({ client: redisClient, disableTouch: true }),
       saveUninitialized: false,
-      secret: "keyboard cat",
+      secret: "qdwqdjadsdnjqdowldsamkjbhnmxy", // env
       resave: false,
     })
   );
