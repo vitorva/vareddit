@@ -105,6 +105,7 @@ export class UserResolver {
       };
     }
 
+    // [key: string]: any; // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/49941
     req.session.userID = user.id;
 
     return {

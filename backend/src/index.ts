@@ -79,7 +79,10 @@ const main = async () => {
   await apolloServer.start(); // https://stackoverflow.com/questions/68354656/unhandledpromiserejectionwarning-error-you-must-await-server-start-before
   apolloServer.applyMiddleware({
     app,
-    cors: { credentials: true, origin: "https://studio.apollographql.com" },
+    cors: {
+      credentials: true,
+      origin: ["https://studio.apollographql.com", "http://127.0.0.1:5173"],
+    },
   });
 
   app.listen(4000, () => {
