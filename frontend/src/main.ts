@@ -1,6 +1,6 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
-import urql, { createClient } from "@urql/vue";
+//import urql, { createClient } from "@urql/vue";
 
 import App from "./App.vue";
 import router from "./router";

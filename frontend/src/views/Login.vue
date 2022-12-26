@@ -52,7 +52,7 @@ function loginWithPassword() {
 </script>
 <template>
   <div>
-    <p>FORM</p>
+    <p>LOGIN</p>
     <div id="app">
       <div id="alert" v-if="alert">{{ alert }}</div>
       <form @submit.prevent="loginWithPassword">

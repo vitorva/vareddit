@@ -6,9 +6,10 @@
 
 <style>
 footer {
-    color: white;
-    height: 20px;
-    background-color: black;
+    position: fixed;
+    bottom: 0px;
+    height: 40px;
+    background-color: #AED7EB;
     width: 100%;
 }
 </style>
