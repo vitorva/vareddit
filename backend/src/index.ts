@@ -39,7 +39,7 @@ const main = async () => {
   const redisClient = createClient({ legacyMode: true });
   redisClient.connect().catch(console.error);
 
-  app.set("trust proxy", process.env.NODE_ENV !== "production");
+  //app.set("trust proxy", process.env.NODE_ENV !== "production");
 
   app.use(
     session({
@@ -48,11 +48,12 @@ const main = async () => {
       saveUninitialized: false,
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
-        httpOnly: false,
-        //sameSite: "lax", // csrf
-        sameSite: "none",
-        //secure: __prod__,
-        secure: true,
+        httpOnly: true,
+        sameSite: "lax", // csrf , https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie
+        // https://stackoverflow.com/questions/31861669/expressjs-cookie-works-on-localhost-but-not-on-127-0-0-1 -> cookie are bound to hostname
+        //sameSite: "none",
+        //secure: __prod__, //https
+        secure: false,
       },
       //saveUninitialized: false,
       secret: process.env.SECRET!, // env
@@ -81,7 +82,11 @@ const main = async () => {
     app,
     cors: {
       credentials: true,
-      origin: ["https://studio.apollographql.com", "http://127.0.0.1:5173"],
+      origin: [
+        "https://studio.apollographql.com",
+        "http://127.0.0.1:5173",
+        "http://localhost:5173",
+      ],
     },
   });
 
