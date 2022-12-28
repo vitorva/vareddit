@@ -19,12 +19,5 @@ import TheFooter from "./components/TheFooter.vue"
   background-color: red;
 }
 
-body {
-  background-color: green;
-  height: 400px;
-  padding: 0px;
-  margin: 0px;
-}
-
 @media (min-width: 1024px) {}
 </style>
