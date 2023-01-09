@@ -95,6 +95,21 @@ export class UserResolver {
     return { user };
   }
 
+  @Mutation(() => Boolean)
+  async logout(@Ctx() { req, res }) {
+    res.clearCookie("quid");
+    return new Promise((res) =>
+      req.session.destroy((err) => {
+        if (err) {
+          res(false);
+          console.log(err);
+          return;
+        }
+        res(true);
+      })
+    );
+  }
+
   @Mutation(() => UserResponse)
   async login(
     @Arg("options", () => UsernamePasswordInput) options: UsernamePasswordInput,

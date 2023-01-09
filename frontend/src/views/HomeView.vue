@@ -11,7 +11,6 @@ const client = clientStore.client;
 const fetching = ref(true);
 const error = ref("");
 const data = ref("");
-const username = ref("");
 
 const cookie = ref(document.cookie);
 
@@ -48,23 +47,6 @@ client.query(QUERY, {}).toPromise().then(result => {
   fetching.value = false;
 });
 
-
-const QUERY_ME = `
-         {
-            me {
-              user {
-                id,
-                username
-              }
-          }
-        }
-      `
-
-  client.query(QUERY_ME, {}).toPromise().then(result => {
-  username.value = result.data.me.user.username;
-  console.log("ME", result)
-});
-
 </script>
 
 <template>
@@ -79,6 +61,5 @@ const QUERY_ME = `
       <li v-for="post in data" :key="post.id">{{ post.title }}</li>
     </ul>
     <div> cookie is : {{ cookie }}</div>
-    <div> User is : {{ username }}</div>
   </div>
 </template>

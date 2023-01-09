@@ -40,6 +40,8 @@ function loginWithPassword() {
       "options": { "username": username.value, "password": password.value }
     }).toPromise().then(result => console.log("my result", result));
 
+    window.location.href = "http://localhost:5173";
+
   } catch (error) {
     if (error instanceof Error) {
       alert.value = error.message;
