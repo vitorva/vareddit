@@ -6,11 +6,16 @@ import { ref } from 'vue';
 import { useClientStore } from '@/stores/client';
 
 const clientStore = useClientStore();
-const client = clientStore.client
+const client = clientStore.client;
 
 const fetching = ref(true);
 const error = ref("");
 const data = ref("");
+const username = ref("");
+
+const cookie = ref(document.cookie);
+
+
 
 /*
 import { useQuery } from '@urql/vue';
@@ -42,6 +47,24 @@ client.query(QUERY, {}).toPromise().then(result => {
   error.value = result.error
   fetching.value = false;
 });
+
+
+const QUERY_ME = `
+         {
+            me {
+              user {
+                id,
+                username
+              }
+          }
+        }
+      `
+
+  client.query(QUERY_ME, {}).toPromise().then(result => {
+  username.value = result.data.me.user.username;
+  console.log("ME", result)
+});
+
 </script>
 
 <template>
@@ -55,5 +78,7 @@ client.query(QUERY, {}).toPromise().then(result => {
     <ul v-if="data">
       <li v-for="post in data" :key="post.id">{{ post.title }}</li>
     </ul>
+    <div> cookie is : {{ cookie }}</div>
+    <div> User is : {{ username }}</div>
   </div>
 </template>
