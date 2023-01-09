@@ -12,6 +12,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@urql/exchange-graphcache": "^5.0.8",
     "@urql/vue": "^1.0.4",
     "graphql": "^16.6.0",
     "pinia": "^2.0.28",

@@ -55,9 +55,6 @@ window.location.href = "http://localhost:5173";
                 <RouterLink to="/login">Login</RouterLink>
             </span>
             <span>
-                <RouterLink to="/login">Login</RouterLink>
-            </span>
-            <span>
                 <button @click="logout">logout</button>
             </span>
             <span>

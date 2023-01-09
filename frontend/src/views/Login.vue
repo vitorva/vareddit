@@ -2,6 +2,7 @@
 
 <script setup lang="ts" >
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 import { useClientStore } from '@/stores/client';
 
@@ -12,6 +13,8 @@ console.log("useClientStore", clientStore.client)
 const username = ref('');
 const password = ref('');
 const alert = ref('');
+
+const router = useRouter();
 
 // Log in with the form's email/username and password
 function loginWithPassword() {
@@ -40,7 +43,8 @@ function loginWithPassword() {
       "options": { "username": username.value, "password": password.value }
     }).toPromise().then(result => console.log("my result", result));
 
-    window.location.href = "http://localhost:5173";
+    //window.location.href = "http://localhost:5173";
+    router.push('/');
 
   } catch (error) {
     if (error instanceof Error) {
@@ -66,7 +70,7 @@ function loginWithPassword() {
           Password
           <input type="password" v-model="password" />
         </label>
-        <button type="submit">Log in</button>
+        <button type="submit" >Log in</button>
       </form>
     </div>
   </div>
