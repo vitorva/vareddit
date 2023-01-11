@@ -19,9 +19,13 @@ const QUERY_ME = `
         }
       `
 
+   // TODO : avoir dans le store un boolean qui fait qu'à chaque login j'informe que c'est possible de relancer un fetch ici 
+   // https://www.thisdot.co/blog/vue-3-composition-api-watch-and-watcheffect  
+
   client.query(QUERY_ME, {}).toPromise().then(result => {
   username.value = result.data.me.user.username;
   console.log("ME", result)
+
 });
 
 // créer le logout

@@ -20,20 +20,30 @@ export const useClientStore = defineStore("client", () => {
             Mutation: {
               login(result, _args, cache, _info) {
                 const ME = `
-                    {
-                      posts {
-                        id,
-                        title,
-                        createdAt,
-                        updatedAt
+                      {
+                        me {
+                          user {
+                            id,
+                            username
+                          }
                       }
-                  }
+                    }
                 `;
 
-                cache.updateQuery({ query: ME }, (data) => {
-                  console.log("updateQuery !!!", data);
+                console.log("login result", result);
+                const myResult: any = result;
+                const username = myResult.login.user.username;
+                const id = myResult.login.user.id;
+                console.log("myResult", myResult.login.user.username);
+
+                cache.updateQuery({ query: ME }, (data: any) => {
+                  //console.log("updateQuery !!!", data);
                   //console.log("cache", cache);
-                  return data;
+                  const response = {
+                    me: { user: { id: id, username: username } },
+                  };
+                  console.log("response", response);
+                  return {};
                 });
               },
             },
