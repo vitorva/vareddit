@@ -4,9 +4,14 @@ import { ref } from "vue";
 import { createClient, dedupExchange, fetchExchange } from "@urql/vue";
 
 import { cacheExchange } from "@urql/exchange-graphcache";
+import { useFetchStore } from "./Fetch";
+
+//const fetchStore = useFetchStore();
 
 // https://github.com/urql-graphql/urql/discussions/2316
 export const useClientStore = defineStore("client", () => {
+  const fetchStore = useFetchStore();
+
   const client = ref(
     createClient({
       url: "http://localhost:4000/graphql",
@@ -36,6 +41,9 @@ export const useClientStore = defineStore("client", () => {
                 const id = myResult.login.user.id;
                 console.log("myResult", myResult.login.user.username);
 
+                fetchStore.increment();
+
+                /*
                 cache.updateQuery({ query: ME }, (data: any) => {
                   //console.log("updateQuery !!!", data);
                   //console.log("cache", cache);
@@ -45,6 +53,7 @@ export const useClientStore = defineStore("client", () => {
                   console.log("response", response);
                   return {};
                 });
+              */
               },
             },
           },
