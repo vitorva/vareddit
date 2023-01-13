@@ -4,7 +4,7 @@ import { ref } from "vue";
 import { createClient, dedupExchange, fetchExchange } from "@urql/vue";
 
 import { cacheExchange } from "@urql/exchange-graphcache";
-import { useFetchStore } from "./Fetch";
+import { useFetchStore } from "./fetch";
 
 //const fetchStore = useFetchStore();
 
@@ -24,36 +24,7 @@ export const useClientStore = defineStore("client", () => {
           updates: {
             Mutation: {
               login(result, _args, cache, _info) {
-                const ME = `
-                      {
-                        me {
-                          user {
-                            id,
-                            username
-                          }
-                      }
-                    }
-                `;
-
-                console.log("login result", result);
-                const myResult: any = result;
-                const username = myResult.login.user.username;
-                const id = myResult.login.user.id;
-                console.log("myResult", myResult.login.user.username);
-
-                fetchStore.increment();
-
-                /*
-                cache.updateQuery({ query: ME }, (data: any) => {
-                  //console.log("updateQuery !!!", data);
-                  //console.log("cache", cache);
-                  const response = {
-                    me: { user: { id: id, username: username } },
-                  };
-                  console.log("response", response);
-                  return {};
-                });
-              */
+                fetchStore.increment(); // trigger the call to the me function of the API
               },
             },
           },
@@ -62,6 +33,5 @@ export const useClientStore = defineStore("client", () => {
       ],
     })
   );
-
   return { client };
 });

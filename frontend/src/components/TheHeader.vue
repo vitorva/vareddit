@@ -3,15 +3,26 @@ import { RouterLink } from "vue-router";
 import { ref, watch, type Ref } from 'vue';
 
 import { useClientStore } from '@/stores/client';
-import { useFetchStore } from "@/stores/Fetch";
+import { useFetchStore } from "@/stores/fetch";
+
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const clientStore = useClientStore();
 const fetchStore = useFetchStore();
 
 const client = clientStore.client;
 const username: Ref<string> = ref("");
+const userId: Ref<any> = ref(null);
 
-const myfetch = ref(fetchStore.fetch);
+function fetchUser(){
+    client.query(QUERY_ME, {}).toPromise().then(result => {
+        console.log("result ME", result)
+        username.value = result.data.me.user.username;
+        userId.value = result.data.me.user.id;
+    });
+}
 
 const QUERY_ME = `
          {
@@ -22,28 +33,13 @@ const QUERY_ME = `
               }
           }
         }
-      `
-
-// TODO : avoir dans le store un boolean qui fait qu'à chaque login j'informe que c'est possible de relancer un fetch ici 
-// https://www.thisdot.co/blog/vue-3-composition-api-watch-and-watcheffect
-
+      `;
+      
+    
+fetchUser();
 watch(() => fetchStore.fetch, () => {
-    console.log('value changes detected')
+    fetchUser();
 })
-
-watch(() => fetchStore.fetch, () => {
-    client.query(QUERY_ME, {}).toPromise().then(result => {
-        username.value = result.data.me.user.username;
-        console.log("ME", result)
-    });
-})
-
-//username.value = "bobby"
-
-
-// créer le logout
-// si me pas null alors button logout qui va détruire la session ?
-// Comment gérer le logout ???
 
 function logout() {
 
@@ -51,11 +47,12 @@ function logout() {
      mutation {
         logout
     }
-  `
+  `;
 
     client.mutation(LOGOUT, {}).toPromise().then(result => {
-        console.log("ALED")
-        window.location.href = "http://localhost:5173";
+        username.value = "";
+        username.value = null;
+        router.push('/');
     });
 
 }
@@ -64,29 +61,55 @@ function logout() {
 
 <template>
     <header>
-        <nav>
-            <span>
+        <nav class ="container">
+            <div class ="home">
                 <RouterLink to="/">Home</RouterLink>
-            </span>
-            <span>
+            </div>
+            <div class ="options" v-if="!username">
+                <span>
                 <RouterLink to="/login">Login</RouterLink>
-            </span>
-            <span>
-                <button @click="logout">logout</button>
-            </span>
-            <span>
-                <a href="">TEST</a>
-            </span>
+                </span >
+                <span>
+                <RouterLink to="/register">Register</RouterLink>
+                </span>
+            </div>
+            <div  class ="options" v-else>
+                <span> <b>{{ username }}</b></span>
+                <span><button @click="logout">logout</button></span>
+            </div>
         </nav>
-        <div> User is : {{ username }}</div>
-        <!--<div> fetchStore.fetch is : {{ fetchStore.fetch }}</div>-->
     </header>
 </template>
 
 <style>
+
+.container {
+    background-color: black;
+    display: flex;
+    height: 100%;
+
+}
+
+.home {
+    padding-top: 20px;
+    background-color: red;
+    width: 20%;
+}
+
+.options {
+    display: flex;
+    width: 80%;
+    padding-top: 20px;
+    padding-right: 20px;
+    background-color: green;
+    justify-content: flex-end;
+}
+
+
 header {
     background-color: #B8EBE9;
     width: 100%;
+    height: 70px;
 }
 
 span {
