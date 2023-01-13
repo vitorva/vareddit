@@ -57,13 +57,15 @@ function logout() {
 
 }
 
+// TODO : centrer le header + header adapté à la taille des posts.
+
 </script>
 
 <template>
     <header>
         <nav class ="container">
             <div class ="home">
-                <RouterLink to="/">Home</RouterLink>
+                <RouterLink to="/">VAREDDIT</RouterLink>
             </div>
             <div class ="options" v-if="!username">
                 <span>
@@ -74,6 +76,9 @@ function logout() {
                 </span>
             </div>
             <div  class ="options" v-else>
+                <span>
+                <button>Create post</button>
+                </span >
                 <span> <b>{{ username }}</b></span>
                 <span><button @click="logout">logout</button></span>
             </div>
@@ -84,7 +89,6 @@ function logout() {
 <style>
 
 .container {
-    background-color: black;
     display: flex;
     height: 100%;
 
@@ -92,7 +96,6 @@ function logout() {
 
 .home {
     padding-top: 20px;
-    background-color: red;
     width: 20%;
 }
 
@@ -101,12 +104,12 @@ function logout() {
     width: 80%;
     padding-top: 20px;
     padding-right: 20px;
-    background-color: green;
     justify-content: flex-end;
 }
 
 
 header {
+    /*position: fixed; TODO */
     background-color: #B8EBE9;
     width: 100%;
     height: 70px;

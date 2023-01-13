@@ -1,9 +1,10 @@
-<script setup>
-// lang="ts"
+<script setup lang="ts">
 
 import { ref } from 'vue';
 
 import { useClientStore } from '@/stores/client';
+
+import Post from "../components/Post.vue"
 
 const clientStore = useClientStore();
 const client = clientStore.client;
@@ -59,7 +60,7 @@ client.query(QUERY, {}).toPromise().then(result => {
   <div v-else>
     <ul v-if="data">
       <li v-for="post in data" :key="post.id">{{ post.title }}</li>
+      <Post v-for="post in data" :key="post.id"></Post>/>
     </ul>
-    <div> cookie is : {{ cookie }}</div>
   </div>
 </template>

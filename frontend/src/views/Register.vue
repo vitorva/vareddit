@@ -10,6 +10,7 @@ const nameRules = computed(() => [
 ])
 
 const password = ref("");
+const confirmPassword = ref("");
 const passwordRules = computed(() => [
     v => !!v || 'Passowrd is required',
     v => (v && v.length >= 8) || 'Password must be equal or greather than 8 characters',
@@ -40,9 +41,11 @@ async function validate() {
         <v-form ref="form" v-model="valid" lazy-validation>
             <v-text-field v-model="name" :counter="10" :rules="nameRules" label="Name" required></v-text-field>
 
-            <!--<v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>-->
+            <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
 
             <v-text-field v-model="password" :rules="passwordRules" label="Password" required></v-text-field>
+
+            <v-text-field v-model="confirmPassword" :rules="passwordRules" label="Confirm Password" required></v-text-field>
 
             <v-row justify="center">
                 <v-btn class="registerBtn" color="success" @click="validate">
