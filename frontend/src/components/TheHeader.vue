@@ -63,35 +63,39 @@ function logout() {
 
 <template>
     <header>
-        <nav class ="container">
-            <div class ="home">
-                <RouterLink to="/">VAREDDIT</RouterLink>
-            </div>
-            <div class ="options" v-if="!username">
-                <span>
-                <RouterLink to="/login">Login</RouterLink>
-                </span >
-                <span>
-                <RouterLink to="/register">Register</RouterLink>
-                </span>
-            </div>
-            <div  class ="options" v-else>
-                <span>
-                <button>Create post</button>
-                </span >
-                <span> <b>{{ username }}</b></span>
-                <span><button @click="logout">logout</button></span>
-            </div>
-        </nav>
+        <div class="main">
+            <nav class ="container">
+                <div class ="home">
+                    <RouterLink to="/">VAREDDIT</RouterLink>
+                </div>
+                <div class ="options" v-if="!username">
+                    <RouterLink to="/login">Login</RouterLink>
+                    <RouterLink to="/register">Register</RouterLink>
+                </div>
+                <div  class ="options" v-else>
+                    <button>Create post</button>
+                    <b>{{ username }}</b>
+                    <button @click="logout">logout</button>
+                </div>
+            </nav>
+        </div>
+
     </header>
 </template>
 
 <style>
 
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .container {
+    background-color: red;
     display: flex;
     height: 100%;
-
+    width: 80%;
 }
 
 .home {
@@ -105,6 +109,7 @@ function logout() {
     padding-top: 20px;
     padding-right: 20px;
     justify-content: flex-end;
+    gap: 15px;
 }
 
 
@@ -112,7 +117,7 @@ header {
     /*position: fixed; TODO */
     background-color: #B8EBE9;
     width: 100%;
-    height: 70px;
+    padding: 20px;
 }
 
 span {

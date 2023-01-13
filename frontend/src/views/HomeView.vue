@@ -58,9 +58,14 @@ client.query(QUERY, {}).toPromise().then(result => {
     Oh no... {{ error }}
   </div>
   <div v-else>
-    <ul v-if="data">
-      <li v-for="post in data" :key="post.id">{{ post.title }}</li>
-      <Post v-for="post in data" :key="post.id"></Post>/>
-    </ul>
+    <div class = "posts" v-if="data">
+      <Post v-for="post in data" :key="post.id" :post= "post.title" :id="post.id"></Post>
+    </div>
   </div>
 </template>
+
+<style>
+.posts {
+margin-top: 20px;
+}
+</style>
