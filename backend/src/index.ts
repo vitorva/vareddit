@@ -13,6 +13,7 @@ import connectRedis from "connect-redis";
 
 // redis@v4
 import { createClient } from "redis";
+import { MyContext } from "./types";
 
 const main = async () => {
   const orm = await MikroORM.init(mikroConfig);
@@ -28,6 +29,9 @@ const main = async () => {
   //const posts = await fork.find(Post, {});
   //console.log(posts);
 
+  console.log("DIIRNAME", __dirname);
+  console.log("SECRET", process.env.SECRET);
+
   const app = express();
 
   const RedisStore = connectRedis(session);
@@ -35,12 +39,24 @@ const main = async () => {
   const redisClient = createClient({ legacyMode: true });
   redisClient.connect().catch(console.error);
 
+  //app.set("trust proxy", process.env.NODE_ENV !== "production");
+
   app.use(
     session({
-      name: "quid",
+      name: "quid", // https://community.apollographql.com/t/allow-cookies-to-be-sent-alongside-request/920  x-forwarded-proto : https in chrome
       store: new RedisStore({ client: redisClient, disableTouch: true }),
       saveUninitialized: false,
-      secret: "qdwqdjadsdnjqdowldsamkjbhnmxy", // env
+      cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
+        httpOnly: true,
+        sameSite: "lax", // csrf , https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie
+        // https://stackoverflow.com/questions/31861669/expressjs-cookie-works-on-localhost-but-not-on-127-0-0-1 -> cookie are bound to hostname
+        //sameSite: "none",
+        //secure: __prod__, //https
+        secure: false,
+      },
+      //saveUninitialized: false,
+      secret: process.env.SECRET!, // env
       resave: false,
     })
   );
@@ -58,11 +74,21 @@ const main = async () => {
       resolvers: [HelloResolver, PostResolver, UserResolver],
       validate: false,
     }),
-    context: () => ({ em: orm.em }),
+    context: ({ req, res }): MyContext => ({ em: orm.em, req, res }),
   });
 
   await apolloServer.start(); // https://stackoverflow.com/questions/68354656/unhandledpromiserejectionwarning-error-you-must-await-server-start-before
-  apolloServer.applyMiddleware({ app });
+  apolloServer.applyMiddleware({
+    app,
+    cors: {
+      credentials: true,
+      origin: [
+        "https://studio.apollographql.com",
+        "http://127.0.0.1:5173",
+        "http://localhost:5173",
+      ],
+    },
+  });
 
   app.listen(4000, () => {
     console.log("server started on localhost:4000");
