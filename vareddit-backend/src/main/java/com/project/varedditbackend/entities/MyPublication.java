@@ -1,4 +1,4 @@
-package com.project.varedditbackend.entity;
+package com.project.varedditbackend.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

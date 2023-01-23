@@ -1,4 +1,4 @@
-package com.project.varedditbackend.entity;
+package com.project.varedditbackend.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Hunter {
+public class Customer {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -14,9 +14,9 @@ public class Hunter {
     private String firstName;
     private String lastName;
 
-    protected Hunter() {}
+    protected Customer() {}
 
-    public Hunter(String firstName, String lastName) {
+    public Customer(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }

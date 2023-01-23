@@ -1,6 +1,6 @@
 package com.project.varedditbackend;
 
-import com.project.varedditbackend.entity.*;
+import com.project.varedditbackend.entities.*;
 import com.project.varedditbackend.repositories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,17 +68,16 @@ public class VaredditBackendApplication {
 
 
 	@Bean
-	public CommandLineRunner demo(PostRepository repository) {
+	public CommandLineRunner demo(PostRepository repo) {
 		return (args) -> {
 			// save a few customers
-			repository.save(new Post("post1"));
-			repository.save(new Post("post2"));
-			repository.save(new Post("post3"));
+			repo.save(new Post("post-1"));
+			repo.save(new Post("post-2"));
 
 			// fetch all posts
 			log.info("Post found with findAll():");
 			log.info("-------------------------------");
-			for (Post post : repository.findAll()) {
+			for (Post post : repo.findAll()) {
 				log.info(post.toString());
 			}
 
@@ -86,5 +85,22 @@ public class VaredditBackendApplication {
 		};
 	}
 
+	@Bean
+	public CommandLineRunner demo2(UserRepository repo) {
+		return (args) -> {
+			// save a few customers
+			repo.save(new User("Toto", "1234"));
+			repo.save(new User("Jean", "1234"));
+
+			// fetch all posts
+			log.info("Post found with findAll():");
+			log.info("-------------------------------");
+			for (User user : repo.findAll()) {
+				log.info(user.toString());
+			}
+
+			log.info("");
+		};
+	}
 
 }
