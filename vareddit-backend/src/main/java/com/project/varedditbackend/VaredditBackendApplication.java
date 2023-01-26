@@ -66,7 +66,7 @@ public class VaredditBackendApplication {
 		};
 	}*/
 
-
+    /*
 	@Bean
 	public CommandLineRunner demo(PostRepository repo) {
 		return (args) -> {
@@ -102,5 +102,5 @@ public class VaredditBackendApplication {
 			log.info("");
 		};
 	}
-
+*/
 }

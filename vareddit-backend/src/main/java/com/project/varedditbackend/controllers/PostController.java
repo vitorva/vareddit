@@ -3,6 +3,7 @@ package com.project.varedditbackend.controllers;
 import com.project.varedditbackend.entities.Post;
 import com.project.varedditbackend.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,9 +16,9 @@ public class PostController {
     PostRepository postRepository;
 
     @GetMapping("")
-    public List<Post> posts() {
+    public ResponseEntity<List<Post>> posts() {
         List<Post> listsPost = (List<Post>) postRepository.findAll();
-        return listsPost;
+        return ResponseEntity.ok().body(listsPost);
     }
 
     @GetMapping("/{id}")
